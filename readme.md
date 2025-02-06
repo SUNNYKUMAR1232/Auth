@@ -9,8 +9,6 @@
 - [How to Implement Google Authentication in Node.js Using Passport.js](https://medium.com/@prashantramnyc/how-to-implement-google-authentication-in-node-js-using-passport-js-9873f244b55e)
 - [Managing Environment Variables in Node.js Using the Dotenv Package](https://thegeekplanets.medium.com/managing-environment-variables-in-node-js-using-the-dotenv-package-2a5c8eee61a8)
 
-## Auth
-
 ### Description
 
 This project is an authentication system built with Node.js, Express, TypeScript, and Passport.js. It supports multiple authentication strategies including GitHub and Google.
@@ -19,7 +17,6 @@ This project is an authentication system built with Node.js, Express, TypeScript
 
 - [Auth](#auth)
   - [Reference](#reference)
-  - [Auth](#auth-1)
     - [Description](#description)
     - [Table of Contents](#table-of-contents)
   - [Setup](#setup)

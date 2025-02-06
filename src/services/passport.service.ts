@@ -4,7 +4,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import User from "../models/User";
 import { UserDto } from "../dtos/user.dto";
 import { UserDtoParams } from "../dtos/user.dto";
-import "../config/envConfig";
+import "../config/env.config";
 
 const {
   GITHUB_CLIENT_ID,

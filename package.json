@@ -6,7 +6,8 @@
     "build": "npx tsc",
     "start": " NODE_ENV=development npx tsc && nodemon [ tsify ] ./dist/server.js",
     "dev": "NODE_ENV=development watchify ./src/server.ts -p [ tsify ] -o ./dist/server.js --verbose",
-    "prod": "NODE_ENV=Production node ./dist/server.js"
+    "prod": "NODE_ENV=Production node ./dist/server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "@logtail/node": "^0.5.2",
     "@logtail/winston": "^0.5.2",
     "connect-mongo": "^5.1.0",
+    "connect-redis": "^8.0.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "csurf": "^1.10.0",
