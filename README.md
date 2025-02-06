@@ -52,5 +52,3 @@ To start the server in development mode:
 npm run dev
 # or
 yarn dev
-
-NEW_RELIC_APP_NAME=auth NEW_RELIC_LICENSE_KEY=NRAK-IDLPEB984MI6G2H3VUPTD173OKH node --experimental-loader=newrelic/esm-loader.mjs YOUR_MAIN_FILENAME.js
