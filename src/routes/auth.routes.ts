@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { GithubAuth,GoogleAuth } from "../controllers/controller";
 import { IAuthRoute } from "../interfaces/Auth.interfaces/auth.route.interface";
-import PassportService, { providers } from "../services/passport";
+import PassportService, { providers } from "../services/passport.service";
 
 class AuthRoute implements IAuthRoute {
     private readonly passport = new PassportService();

@@ -1,15 +1,14 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import * as dotenv from "dotenv";
 dotenv.config();
-import "./config/envConfig";
+import "./config/env.config";
 import cors from "cors";
-import Database from "./config/DB";
+import Database from "./config/db.config";
 import { GlobalRoutes } from "./routes/routes";
-import morganConfig from "./config/morganConfig";
-import CorsConfig from "./config/corsConfig";
-import helmetConfig from "./config/HelmetConfig";
+import morganConfig from "./config/morgan.config";
+import CorsConfig from "./config/cors.config";
+import helmetConfig from "./config/helmet.config";
 import session from "express-session";
-import MongoStore from "connect-mongo";
 import passport from "passport";
 import BodyParser from "body-parser";
 import csrf from "csurf";
@@ -17,23 +16,14 @@ import cookieParser from "cookie-parser";
 import createHttpError from "http-errors";
 import path from "path";
 import pluralize from "pluralize";
-import ejs from "ejs";
-
-console.log({
-  URL: process.env.MONGO_URI,
-  NODE_ENV: process.env.NODE_ENV,
-});
+import RedisService from "./services/redis.service";
+import {RedisStore} from "connect-redis";
 
 const options = {
   secret: process.env.SECRET || "your_secret_key",
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl:
-      process.env.MONGO_URI ||
-      "mongodb+srv://sunnykumar232327zz7JuKTlw0LAJWm:7zz7JuKTlw0LAJWm@cluster0.9w00dzc.mongodb.net",
-    collectionName: "sessions",
-  }),
+  store: new RedisStore({ client: RedisService.getClient()}),
   cookie: {
     secure: process.env.NODE_ENV === "production", // Use secure cookies in production
     maxAge: 1000 * 60  , // 1 minute
@@ -46,7 +36,8 @@ class App {
   constructor() {
     this.init();
   }
-  private init() {
+  private  async init() {
+    await RedisService.connect(); 
     this.initConfig();
     this.initMiddlewares();
     this.initPassport();
