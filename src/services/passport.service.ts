@@ -1,77 +1,61 @@
-import passport from "passport";
-import { Strategy as GithubStrategy } from "passport-github2";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import User from "../models/User";
-import { UserDto } from "../dtos/user.dto";
-import { UserDtoParams } from "../dtos/user.dto";
-import "../config/env.config";
-
-const {
-  GITHUB_CLIENT_ID,
-  GITHUB_CLIENT_SECRET,
-  GITHUB_CALLBACK_URL,
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  GOOGLE_CALLBACK_URL,
-} = process.env;
-
-export enum AuthProviders {
-  GITHUB = "GITHUB",
-  GOOGLE = "GOOGLE",
-}
-
-type OAuthProvider = {
-  name: string;
-  scope: string[];
-  clientID: string;
-  clientSecret: string;
-  callbackURL: string;
-};
-
-const providers: { [key in AuthProviders]: OAuthProvider } = {
-  [AuthProviders.GITHUB]: {
-    name: "github",
-    scope: ["user:email"],
-    clientID: GITHUB_CLIENT_ID.toString(),
-    clientSecret: GITHUB_CLIENT_SECRET.toString(),
-    callbackURL: GITHUB_CALLBACK_URL.toString(),
-  },
-  [AuthProviders.GOOGLE]: {
-    name: "google",
-    scope: ["email", "profile"],
-    clientID: GOOGLE_CLIENT_ID.toString(),
-    clientSecret: GOOGLE_CLIENT_SECRET.toString(),
-    callbackURL: GOOGLE_CALLBACK_URL.toString(),
-  },
-};
-
+import passport from 'passport'
+import { Strategy as GithubStrategy } from 'passport-github2'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import { Strategy as LinkedInStrategy } from 'passport-linkedin-oauth2'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
+import { Strategy as TwitterStrategy } from 'passport-twitter'
+import User from '../models/User'
+import { UserDto } from '../dtos/user.dto'
+import { UserDtoParams } from '../dtos/user.dto'
+import {
+  AuthProviders,
+  OAuthProvider,
+  providers
+} from '../interfaces/auth.interface'
 class PassportService {
   constructor() {
-    this.initialize();
+    this.initialize()
   }
   private initialize() {
-    this.setupSerialization();
+    this.setupSerialization()
     this.configureStrategy(
       AuthProviders.GITHUB,
       GithubStrategy,
       providers[AuthProviders.GITHUB],
       false
-    );
+    )
     this.configureStrategy(
       AuthProviders.GOOGLE,
       GoogleStrategy,
       providers[AuthProviders.GOOGLE],
       true
-    );
+    )
+    this.configureStrategy(
+      AuthProviders.LINKEDIN,
+      LinkedInStrategy,
+      providers[AuthProviders.LINKEDIN],
+      true
+    )
+    this.configureStrategy(
+      AuthProviders.FACEBOOK,
+      FacebookStrategy,
+      providers[AuthProviders.FACEBOOK],
+      false
+    )
+    this.configureStrategy(
+      AuthProviders.TWITTER,
+      TwitterStrategy,
+      providers[AuthProviders.TWITTER],
+      true
+    )
   }
-
   private setupSerialization() {
     passport.serializeUser(function (user, done) {
-      done(null, user);
-    });
+      done(null, user)
+    })
     passport.deserializeUser(function (user, done) {
-      done(null, user);
-    });
+      done(null, user)
+    })
   }
   private configureStrategy(
     provider: AuthProviders,
@@ -84,8 +68,10 @@ class PassportService {
         {
           clientID: providerConfig.clientID,
           clientSecret: providerConfig.clientSecret,
+          consumerKey: providerConfig.consumerKey,
+          consumerSecret: providerConfig.consumerSecret,
           callbackURL: providerConfig.callbackURL,
-          passReqToCallback,
+          passReqToCallback
         },
         async (req, accessToken, refreshToken, profile, done) => {
           return this.saveUser(
@@ -94,10 +80,10 @@ class PassportService {
             refreshToken,
             profile,
             done
-          );
+          )
         }
       )
-    );
+    )
   }
   private async saveUser(
     provider: AuthProviders,
@@ -108,11 +94,10 @@ class PassportService {
   ) {
     try {
       const user = await User.findOne({
-        [`${provider.toLowerCase()}Id`]: profile.id,
-      });
-
+        [`${provider.toLowerCase()}Id`]: profile.id
+      })
       if (user) {
-        return done(null, user);
+        return done(null, user)
       } else {
         const userData: UserDtoParams = {
           name: profile.displayName,
@@ -120,43 +105,43 @@ class PassportService {
           githubId: provider === AuthProviders.GITHUB ? profile.id : undefined,
           googleId: provider === AuthProviders.GOOGLE ? profile.id : undefined,
           image: profile.photos ? profile.photos[0].value : undefined,
-        };
-        const userDto = new UserDto(userData);
+          location: profile.location,
+          birthdate: profile.birthdate
+        }
+        const userDto = new UserDto(userData)
 
         // Validate user data
-        const validationResult = UserDto.validate(userDto);
+        const validationResult = UserDto.validate(userDto)
         if (validationResult.error) {
-          return done(validationResult.error);
+          return done(validationResult.error)
         }
 
-        const newUser = new User(userDto);
-        const savedUser = await newUser.save();
-        return done(null, savedUser);
+        const newUser = new User(userDto)
+        const savedUser = await newUser.save()
+        return done(null, savedUser)
       }
     } catch (error) {
-      return done(error);
+      return done(error)
     }
   }
   public getPassport() {
-    return passport;
+    return passport
   }
-
   public getLogin(name: string, scope: string[]) {
-    return passport.authenticate(name, { scope });
+    return passport.authenticate(name, { scope })
   }
-
   public getCallback(
     name: string,
     failureRedirect?: string,
     successRedirect?: string
   ) {
-    return passport.authenticate(name, { failureRedirect, successRedirect });
+    return passport.authenticate(name, { failureRedirect, successRedirect })
   }
 }
 
-export default PassportService;
+export default PassportService
 
-export { providers };
+export { providers }
 
 /* 
  githubId: profile.id,

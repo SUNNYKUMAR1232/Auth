@@ -1,52 +1,37 @@
-import morgan, { StreamOptions } from "morgan";
-import { Request, Response, NextFunction, Application } from "express";
-import chalk from "chalk";
+import morgan from 'morgan'
+import { Application } from 'express'
+import chalk from 'chalk'
 
 class MorganConfig {
-    private format: string;
-    private Time: string;
+  private format: any
 
-    constructor() {
-        // Define custom token for Morgan
-        morgan.token("custom", (req: Request, res: Response) => {
-            const method = chalk.blue(req.method);
-            const url = chalk.green(req.url);
-            const status = res.statusCode < 400 ? chalk.green(res.statusCode.toString()) : chalk.red(res.statusCode.toString());
-            const contentLength = chalk.yellow(res.get("Content-Length") || "0");
-            const responseTime = chalk.magenta(`${this.Time} ms`);
-            const date = chalk.cyan(new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }));
+  constructor() {
+    // Define custom token for Morgan
+    this.format = morgan(function (tokens, req, res) {
+      const method = chalk.blue(tokens.method(req, res))
+      const url = chalk.green(tokens.url(req, res))
+      const status =
+        parseInt(tokens.status(req, res), 10) < 400
+          ? chalk.green(tokens.status(req, res).toString())
+          : chalk.red(tokens.status(req, res).toString())
+      const contentLength = chalk.yellow(tokens.res(req, res, 'content-length'))
+      const date = chalk.cyan(
+        new Date()
+          .toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+          .toUpperCase()
+      )
+      const responseTime = chalk.bgCyan(
+        tokens['response-time'](req, res).toString() + ' ms'
+      )
 
-            return [
-                method,
-                url,
-                status,
-                contentLength,
-                "-",
-                responseTime,
-                date.toUpperCase()
-            ].join(" ");
-        });
+      return [method, url, status, contentLength, date, responseTime].join(' ')
+    })
+  }
 
-        // Define Morgan format
-        this.format = ":custom";
-    }
-
-    public init(app: Application): void {
-        // Add response time header
-        app.use((req: Request, res: Response, next: NextFunction) => {
-            const startHrTime = process.hrtime();
-            res.on("finish", () => {
-                const elapsedHrTime = process.hrtime(startHrTime);
-                const elapsedTimeInMs = elapsedHrTime[0] * 1000 + elapsedHrTime[1] / 1e6;
-                this.Time= elapsedTimeInMs.toFixed(3);
-            });
-            next();
-        });
-
-        app.use(morgan(this.format, {
-            stream: process.stdout as StreamOptions
-        }));
-    }
+  public init(app: Application): void {
+    // Initialize Morgan middleware with custom format
+    app.use(this.format)
+  }
 }
 
-export default new MorganConfig();
+export default new MorganConfig()
