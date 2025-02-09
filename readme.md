@@ -1,4 +1,3 @@
-
 # Auth
 
 ## Reference
@@ -8,6 +7,7 @@
 - [Advanced Error Handling in Node.js](https://dev.to/amritak27/advanced-error-handling-in-nodejs-1ep8)
 - [How to Implement Google Authentication in Node.js Using Passport.js](https://medium.com/@prashantramnyc/how-to-implement-google-authentication-in-node-js-using-passport-js-9873f244b55e)
 - [Managing Environment Variables in Node.js Using the Dotenv Package](https://thegeekplanets.medium.com/managing-environment-variables-in-node-js-using-the-dotenv-package-2a5c8eee61a8)
+- [Integrating Redis with TypeScript Using the Official Redis Library](https://medium.com/@alessandro.traversi/integrating-redis-with-typescript-using-the-official-redis-library-9cf121da3fb9)
 
 ### Description
 
@@ -36,22 +36,22 @@ This project is an authentication system built with Node.js, Express, TypeScript
 
 1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/your-repo/auth.git
-    cd auth
-    ```
+   ```bash
+   git clone https://github.com/your-repo/auth.git
+   cd auth
+   ```
 
 2. Install dependencies:
 
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
 3. Set up environment variables:
 
-    Create `.env.development`, `.env.test`, `.env.staging`, and `.env.production` files as needed and add the required environment variables.
+   Create `.env.development`, `.env.test`, `.env.staging`, and `.env.production` files as needed and add the required environment variables.
 
 ## Usage
 
@@ -59,8 +59,9 @@ This project is an authentication system built with Node.js, Express, TypeScript
 
 To start the server in development mode:
 
-    ```bash
-    npm run dev
-    # or
-    yarn dev
-    ````
+````bash
+  npm run dev
+  # or
+  yarn dev
+  ```
+````

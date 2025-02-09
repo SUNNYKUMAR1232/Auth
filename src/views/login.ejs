@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link href="../../public/css/login.css" rel="stylesheet" type="text/css" />
+    <link href="../../public/images/login-page-4468581-3783954.png" rel="icon" type="image/png" />
+  </head>
+  <body>
+    <div id="webcrumbs">
+      <div class="w-[900px] min-h-[600px] bg-white rounded-lg shadow-lg flex">
+        <div class="w-[50%] px-12 py-8 flex flex-col justify-center">
+          <h2
+            class="text-4xl font-title font-bold mb-12 text-center transform hover:scale-105 transition-transform duration-300 ease-in-out"
+          >
+            Welcome Back!
+          </h2>
+          <form class="flex flex-col gap-6">
+            <div>
+              <label class="block text-sm font-semibold mb-2">Email</label>
+              <input
+                type="email"
+                placeholder="username@gmail.com"
+                class="w-full p-3 border border-neutral-300 rounded-xl bg-neutral-50 focus:ring-2 focus:ring-violet-500 focus:outline-none transition-all duration-300 hover:border-violet-300"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-2">Password</label>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                class="w-full p-3 border border-neutral-300 rounded-xl bg-neutral-50 focus:ring-2 focus:ring-violet-500 focus:outline-none transition-all duration-300 hover:border-violet-300"
+              />
+            </div>
+            <div class="flex justify-between items-center">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  class="w-4 h-4 rounded border-neutral-300 text-violet-500 focus:ring-violet-500"
+                />
+                <span class="text-sm">Remember me</span>
+              </label>
+              <a
+                href="#"
+                class="text-sm font-semibold text-violet-600 hover:text-violet-700 hover:underline"
+                >Forgot Password?</a
+              >
+            </div>
+            <button
+              class="w-full bg-violet-600 text-white py-3 rounded-xl hover:bg-violet-700 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-violet-200"
+            >
+              Sign In
+            </button>
+            <div class="flex items-center">
+              <div class="border-t border-neutral-200 flex-grow"></div>
+              <span class="mx-4 text-sm text-neutral-500"
+                >Or continue with</span
+              >
+              <div class="border-t border-neutral-200 flex-grow"></div>
+            </div>
+            <div class="flex gap-2">
+              <a
+                href="http://localhost:5000/api/v1/auth/google"
+                class="w-full flex items-center justify-center gap-2 px-4 py-2.5 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition-all duration-300 hover:border-neutral-300 group"
+              >
+                <i
+                  class="fa-brands fa-google text-lg group-hover:scale-110 transition-transform"
+                ></i>
+                Google
+              </a>
+              <a
+              href="http://localhost:5000/api/v1/auth/github"
+              class="w-full flex items-center justify-center gap-2 px-4 py-2.5 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition-all duration-300 hover:border-neutral-300 group"
+            >
+              <i
+                class="fa-brands fa-github text-lg group-hover:scale-110 transition-transform"
+              ></i>
+              GitHub
+            </a>
+            </div>
+            <details class="relative">
+              <summary
+                class="flex items-center justify-center gap-2 border border-neutral-200 rounded-xl px-4 py-2.5 hover:bg-neutral-50 transition-all duration-300 hover:border-neutral-300 cursor-pointer list-none"
+              >
+                More options
+                <i
+                  class="fa-solid fa-chevron-down text-sm transition-transform group-open:rotate-180"
+                ></i>
+              </summary>
+              <div
+                class="absolute top-full left-0 w-full bg-white rounded-xl shadow-lg mt-2 p-2 border border-neutral-200 z-10"
+              >
+                 <a
+                href="http://localhost:5000/api/v1/auth/twitter"
+                class="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-neutral-50 rounded-lg transition-all duration-300 group"
+              >
+                <i
+                  class="fa-brands fa-twitter text-lg group-hover:scale-110 transition-transform"
+                ></i>
+                Twitter
+              </a>
+              <a
+                href="http://localhost:5000/api/v1/auth/facebook"
+                class="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-neutral-50 rounded-lg transition-all duration-300 group"
+              >
+                <i
+                  class="fa-brands fa-facebook text-lg group-hover:scale-110 transition-transform"
+                ></i>
+                Facebook
+              </a>
+              <a
+                href="http://localhost:5000/api/v1/auth/linkedin"
+                class="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-neutral-50 rounded-lg transition-all duration-300 group"
+              >
+                <i
+                  class="fa-brands fa-linkedin text-lg group-hover:scale-110 transition-transform"
+                ></i>
+                LinkedIn
+              </a>
+              </div>
+            </details>
+          </form>
+          <p class="text-sm text-center mt-8 text-neutral-600">
+            Don&#x27;t have an account?
+            <a
+              href="#"
+              class="text-violet-600 font-semibold hover:text-violet-700 hover:underline"
+              >Sign up for free</a
+            >
+          </p>
+        </div>
+        <div class="w-[50%] bg-violet-50 rounded-r-lg relative overflow-hidden">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-violet-600/20"
+          ></div>
+          <img
+          src="<%= apiHost %><%= assetsPath %>/images/login-page-4468581-3783954.png"
+            alt="Login Illustration"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] h-auto object-contain"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
