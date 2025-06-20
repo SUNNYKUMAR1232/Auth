@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
-module.exports = {
+const config = {
   testEnvironment: 'node',
   transform: {
     '^.+\\.tsx?$': [
@@ -11,4 +11,6 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testMatch: ['**/test/**/*.test.ts']
-}
+};
+
+export default config;

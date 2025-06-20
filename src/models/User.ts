@@ -9,8 +9,6 @@ class User {
         password: { type: String, required: false },
         name: { type: String, required: true },
         email: { type: String, unique: true, sparse: true },
-        githubId: { type: String, sparse: true },
-        googleId: { type: String, sparse: true },
         image: { type: String, sparse: true }
       },
       { timestamps: true }

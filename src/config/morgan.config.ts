@@ -3,7 +3,7 @@ import { Application } from 'express'
 import chalk from 'chalk'
 
 class MorganConfig {
-  private format: any
+  private format: import('express').RequestHandler
 
   constructor() {
     // Define custom token for Morgan

@@ -12,7 +12,7 @@ export class JoiSchemaManager {
     return this.schema
   }
 
-  public validate(data: any) {
+  public validate(data: unknown) {
     return this.schema.validate(data)
   }
   public getSwaggerSchema() {
