@@ -1,29 +1,33 @@
-import { createLogger, format, transports } from 'winston'
-import { Logtail } from '@logtail/node'
-import { LogtailTransport } from '@logtail/winston'
+import { createLogger, format, transports, Logger } from 'winston'
+import winston from 'winston/lib/winston/config'
 import { Application, Request, Response, NextFunction } from 'express'
 
 class LoggerConfig {
-  private logger: any
+  private logger: Logger
 
   constructor() {
-    const logtail = new Logtail(process.env.LOGTAIL_SOURCE_TOKEN || '')
+    winston.addColors({
+      info: 'green',
+      warn: 'yellow',
+      error: 'red',
+      debug: 'blue'
+    })
 
     this.logger = createLogger({
       level: 'info',
       format: format.combine(format.timestamp(), format.json()),
-      transports: [new transports.Console(), new LogtailTransport(logtail)]
+      transports: [new transports.Console()]
     })
   }
 
   public init(app: Application): void {
-    app.use((req: Request, res: Response, next: NextFunction) => {
+    app.use((req: Request, _res: Response, next: NextFunction) => {
       this.logger.info(`${req.method} ${req.url}`)
       next()
     })
   }
 
-  public getLogger() {
+  public getLogger(): Logger {
     return this.logger
   }
 }

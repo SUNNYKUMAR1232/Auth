@@ -1,10 +1,10 @@
-const gulp = require('gulp')
-const ts = require('gulp-typescript')
-const copy = require('gulp-copy')
-const babel = require('gulp-babel')
-const uglify = require('gulp-uglify')
-const rename = require('gulp-rename')
-const tsProject = ts.createProject('tsconfig.json')
+import gulp from 'gulp';
+import ts from 'gulp-typescript';
+import babel from 'gulp-babel';
+import uglify from 'gulp-uglify';
+import rename from 'gulp-rename';
+
+const tsProject = ts.createProject('tsconfig.json');
 
 // Task to compile TypeScript files
 gulp.task('scripts', () => {

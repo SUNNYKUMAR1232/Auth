@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
-    <link href="../../public/css/profile.css" rel="stylesheet" type="text/css" />
+    <link href="/api/public/css/profile.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div id="webcrumbs">
@@ -46,7 +46,7 @@
                 <div class="relative w-full h-full">
                   <img
                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    src="<%= user.image %>"
+                    src="<%= user.image %>" 
                     alt="Profile"
                   />
                   <div
@@ -113,22 +113,23 @@
                 value="<%= user.location %>"
               />
             </div>
-            <button
-              class="relative mt-4 px-8 py-3 bg-gray-800 text-white rounded-lg text-sm font-medium transition-all duration-200 hover:bg-gray-900 hover:-translate-y-0.5 transform"
-            >
-              <svg
-                class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
+              <a
+                href="/api/v1/auth/logout"
+                class="relative mt-4 px-8 py-3 bg-gray-800 text-white rounded-lg text-sm font-medium transition-all duration-200 hover:bg-gray-900 hover:-translate-y-0.5 transform flex items-center justify-center"
               >
-                <path
-                  d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14l4-4-4-4m-4 4h11"
-                ></path>
-              </svg>
-              Logout
-            </button>
+                <svg
+                  class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14l4-4-4-4m-4 4h11"
+                  ></path>
+                </svg>
+                Logout
+              </a>
           </div>
         </div>
       </div>

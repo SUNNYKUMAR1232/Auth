@@ -1,16 +1,15 @@
-import { Router, Request, Response, NextFunction } from 'express'
-import { AuthController } from '../controllers/controller'
-import { IAuthRoute } from '../interfaces/auth.interface'
-import PassportService, { providers } from '../services/passport.service'
+import { Router } from 'express'
+import {logout} from '../controllers/auth.controller'
+import { wrapAsync } from '../utils/warapAsync'
+import { IAuthRoute, providers } from '../interfaces/auth.interface'
+import { getCallback, getLogin } from '@src/services/passport.service'
+
 
 class AuthRoute implements IAuthRoute {
-  private readonly passport = new PassportService()
-  private readonly authController: AuthController
   private router: Router
 
   constructor() {
     this.router = Router()
-    this.authController = new AuthController()
     this.initRoutes()
   }
 
@@ -23,15 +22,16 @@ class AuthRoute implements IAuthRoute {
   }
 
   public async GithubAuth(): Promise<void> {
-    this.router.get('/logout', this.wrapAsync(this.authController.Logout))
+    this.router.get('/logout', wrapAsync(logout))
+    
     this.router.get(
       '/github',
-      this.passport.getLogin(providers.GITHUB.name, providers.GITHUB.scope)
+      getLogin(providers.GITHUB.name, providers.GITHUB.scope)
     )
     this.router.get(
       '/github/callback',
-      this.passport.getCallback(providers.GITHUB.name, '/api/v1/auth/profile'),
-      (req, res) => {
+      getCallback(providers.GITHUB.name, '/api/v1/auth/profile'),
+      (_, res) => {
         res.redirect('/api/v1/auth')
       }
     )
@@ -41,41 +41,59 @@ class AuthRoute implements IAuthRoute {
     // Implement Google Auth
     this.router.get(
       '/google',
-      this.passport.getLogin(providers.GOOGLE.name, providers.GOOGLE.scope)
+      getLogin(providers.GOOGLE.name, providers.GOOGLE.scope)
     )
     this.router.get(
       '/google/callback',
-      this.passport.getLogin(providers.GOOGLE.name, providers.GOOGLE.scope),
-      (req, res) => {
+      getLogin(providers.GOOGLE.name, providers.GOOGLE.scope),
+      (_, res) => {
         res.redirect('/api/v1/auth/profile')
       }
     )
   }
   public async FacebookAuth(): Promise<void> {
     // Implement Facebook Auth
+    this.router.get(
+      '/facebook',
+      getLogin(providers.FACEBOOK.name, providers.FACEBOOK.scope)
+    )
+    this.router.get(
+      '/facebook/callback',
+      getLogin(providers.FACEBOOK.name, providers.FACEBOOK.scope),
+      (_, res) => {
+        res.redirect('/api/v1/auth/profile')
+      }
+    )
   }
   public async TwitterAuth(): Promise<void> {
     // Implement Twitter Auth
     this.router.get(
       '/twitter',
-      this.passport.getLogin(providers.TWITTER.name, providers.TWITTER.scope)
+      getLogin(providers.TWITTER.name, providers.TWITTER.scope)
     )
     this.router.get(
       '/twitter/callback',
-      this.passport.getLogin(providers.TWITTER.name, providers.TWITTER.scope),
-      (req, res) => {
+      getLogin(providers.TWITTER.name, providers.TWITTER.scope),
+      (_, res) => {
         res.redirect('/api/v1/auth/profile')
       }
     )
   }
   public async LinkedinAuth(): Promise<void> {
     // Implement Linkedin Auth
+    this.router.get(
+      '/linkedin',
+      getLogin(providers.LINKEDIN.name, providers.LINKEDIN.scope)
+    )
+    this.router.get(
+      '/linkedin/callback',
+      getLogin(providers.LINKEDIN.name, providers.LINKEDIN.scope),
+      (_, res) => {
+        res.redirect('/api/v1/auth/profile')
+      }
+    )
   }
-  private wrapAsync(fn: Function) {
-    return (req: Request, res: Response, next: NextFunction) => {
-      Promise.resolve(fn(req, res, next)).catch(next)
-    }
-  }
+
 
   public getRoutes(): Router {
     return this.router

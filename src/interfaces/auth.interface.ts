@@ -19,7 +19,7 @@ const {
   TWITTER_CALLBACK_URL
 } = process.env
 
-enum AuthProviders {
+enum SocalProviders {
   GITHUB = 'GITHUB',
   GOOGLE = 'GOOGLE',
   LINKEDIN = 'LINKEDIN',
@@ -27,7 +27,7 @@ enum AuthProviders {
   TWITTER = 'TWITTER'
 }
 
-type OAuthProvider = {
+type TSocialProvider = {
   name: string
   scope: string[]
   clientID?: string
@@ -37,41 +37,41 @@ type OAuthProvider = {
   callbackURL: string
 }
 
-const providers: { [key in AuthProviders]: OAuthProvider } = {
-  [AuthProviders.GITHUB]: {
+const providers: { [key in SocalProviders]: TSocialProvider  } = {
+  [SocalProviders.GITHUB]: {
     name: 'github',
     scope: ['user:email'],
-    clientID: GITHUB_CLIENT_ID.toString(),
-    clientSecret: GITHUB_CLIENT_SECRET.toString(),
-    callbackURL: GITHUB_CALLBACK_URL.toString()
+    clientID: GITHUB_CLIENT_ID || '',
+    clientSecret: GITHUB_CLIENT_SECRET || '',
+    callbackURL: GITHUB_CALLBACK_URL || ''
   },
-  [AuthProviders.GOOGLE]: {
+  [SocalProviders.GOOGLE]: {
     name: 'google',
     scope: ['email', 'profile'],
-    clientID: GOOGLE_CLIENT_ID.toString(),
-    clientSecret: GOOGLE_CLIENT_SECRET.toString(),
-    callbackURL: GOOGLE_CALLBACK_URL.toString()
+    clientID: GOOGLE_CLIENT_ID || '',
+    clientSecret: GOOGLE_CLIENT_SECRET || '',
+    callbackURL: GOOGLE_CALLBACK_URL || ''
   },
-  [AuthProviders.LINKEDIN]: {
+  [SocalProviders.LINKEDIN]: {
     name: 'linkedin',
     scope: ['r_emailaddress', 'r_liteprofile'],
-    clientID: LINKEDIN_CLIENT_ID.toString(),
-    clientSecret: LINKEDIN_CLIENT_SECRET.toString(),
-    callbackURL: LINKEDIN_CALLBACK_URL.toString()
+    clientID: LINKEDIN_CLIENT_ID || '',
+    clientSecret: LINKEDIN_CLIENT_SECRET || '',
+    callbackURL: LINKEDIN_CALLBACK_URL || ''
   },
-  [AuthProviders.FACEBOOK]: {
+  [SocalProviders.FACEBOOK]: {
     name: 'facebook',
     scope: ['email'],
-    clientID: FACEBOOK_CLIENT_ID.toString(),
-    clientSecret: FACEBOOK_CLIENT_SECRET.toString(),
-    callbackURL: FACEBOOK_CALLBACK_URL.toString()
+    clientID: FACEBOOK_CLIENT_ID || '',
+    clientSecret: FACEBOOK_CLIENT_SECRET || '',
+    callbackURL: FACEBOOK_CALLBACK_URL || ''
   },
-  [AuthProviders.TWITTER]: {
+  [SocalProviders.TWITTER]: {
     name: 'twitter',
     scope: ['email'],
-    consumerKey: TWITTER_CLIENT_ID.toString(),
-    consumerSecret: TWITTER_CLIENT_SECRET.toString(),
-    callbackURL: TWITTER_CALLBACK_URL.toString()
+    consumerKey: TWITTER_CLIENT_ID || '',
+    consumerSecret: TWITTER_CLIENT_SECRET || '',
+    callbackURL: TWITTER_CALLBACK_URL || ''
   }
 }
 
@@ -82,4 +82,4 @@ interface IAuthRoute {
   getRoutes(): Router
 }
 
-export { providers, AuthProviders, OAuthProvider, IAuthRoute }
+export { providers, SocalProviders, TSocialProvider , IAuthRoute }
